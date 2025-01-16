@@ -28,23 +28,7 @@ app.put("/clientes/:id", ClientControllers.atualizarUsuarioController);
 app.get("/clientes/:email", ClientControllers.getClientController);
 
 //Delete de usuários
-app.delete("/clientes/:id", async (req, res) => {
-    const id = req.params.id;
-
-    try {
-        const query = "DELETE FROM clientes WHERE clientes.id = ?";
-        await conexao.query(query, [id]);
-
-        res.status(200).json({
-            mensagem: "O usuário foi deletado com sucesso!"
-        });
-    }
-    catch (error) {
-        res.status(500).json({
-            mensagem: "O usuário não pode ser excluído no momento, tente novamente mais tarde!"
-        });
-    }
-});
+app.delete("/clientes/:id", ClientControllers.deleteUserController);
 
 const PORT = 3000;
 app.listen(PORT, () => {

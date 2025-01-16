@@ -58,4 +58,15 @@ catch (error) {
 }
 }
 
-module.exports = { getClientes, createClient, loginUsuario, atualizarCliente, getClient}
+
+async function deleteClient({id}){
+  try{
+    const query = "DELETE FROM clientes WHERE clientes.id = ?";
+    await conexao.query(query, [id]);
+  }
+  catch(error){
+    console.error(error)
+  }
+}
+
+module.exports = { getClientes, createClient, loginUsuario, atualizarCliente, getClient, deleteClient}

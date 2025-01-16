@@ -14,4 +14,6 @@ router.put("/clientes/:id", clientControllers.atualizarUsuarioController)
 
 router.get("/clientes/:email", clientControllers.getClientController)
 
+router.delete("/clientes/:id", clientControllers.deleteUserController)
+
 module.exports = router;
