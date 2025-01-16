@@ -13,7 +13,6 @@ async function getClientes() {
   }
 }
 
-
 async function createClient({ nome, telefone, email, senha }) {
 
   const hashSenha = bcrypt.hashSync(senha, 10); //Criptografar a senha (10 é padrão)
@@ -48,4 +47,15 @@ catch (error) {
 }
 }
 
-module.exports = { getClientes, createClient, loginUsuario, atualizarCliente}
+async function getClient ({email}){
+  try {
+    const query = "SELECT id, nome, email, telefone FROM clientes WHERE email = ?";
+    const usuario = await conexao.query(query, [email]);
+    return usuario
+}
+catch (error) {
+    console.error(error);
+}
+}
+
+module.exports = { getClientes, createClient, loginUsuario, atualizarCliente, getClient}

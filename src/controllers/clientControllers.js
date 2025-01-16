@@ -40,7 +40,6 @@ async function loginClientController(req, res){
   }
 }
 
-
 async function atualizarUsuarioController(req, res){
 
   try{
@@ -56,4 +55,15 @@ async function atualizarUsuarioController(req, res){
     console.error("Usuário não foi atualizado!", error)
   }
 }
-module.exports = { getClientsController, createClientController, loginClientController, atualizarUsuarioController };
+
+async function getClientController(req, res){
+  try{
+    const email = req.params.email
+    const cliente = await ClientServices.getClient({email})
+      res.status(200).json(cliente)
+  }    catch(error){
+    console.error(error)
+  }
+}
+
+module.exports = { getClientsController, createClientController, loginClientController, atualizarUsuarioController, getClientController };

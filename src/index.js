@@ -25,22 +25,7 @@ app.post("/login", ClientControllers.loginClientController);
 app.put("/clientes/:id", ClientControllers.atualizarUsuarioController);
 
 //Consulta de usuários
-app.get("/clientes/:email", async (req, res) => {
-    const email = req.params.email;
-
-    try {
-        const query = "SELECT id, nome, email, telefone FROM clientes WHERE email = ?";
-        const usuario = await conexao.query(query, [email]);
-
-        res.status(200).json(usuario);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({
-            mensagem: "O usuário não foi encontrado no momento!"
-        });
-    }
-});
+app.get("/clientes/:email", ClientControllers.getClientController);
 
 //Delete de usuários
 app.delete("/clientes/:id", async (req, res) => {

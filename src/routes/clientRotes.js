@@ -12,5 +12,6 @@ router.post("/clientes", clientControllers.loginClientController)
 
 router.put("/clientes/:id", clientControllers.atualizarUsuarioController)
 
+router.get("/clientes/:email", clientControllers.getClientController)
 
 module.exports = router;
