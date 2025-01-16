@@ -28,7 +28,6 @@ async function createClient({ nome, telefone, email, senha }) {
 }
 
 async function loginUsuario({ email, senha }) {
-  const { email, senha } = req.body;
 
   try {
     const query = "SELECT email, senha FROM clientes WHERE email = ?"; //Só retorna se o email for o mesmo enviado na requisição
@@ -39,4 +38,14 @@ async function loginUsuario({ email, senha }) {
   }
 }
 
-module.exports = { getClientes, createClient, loginUsuario }
+async function atualizarCliente ({nome, telefone, id}){
+  try {
+    const query = "UPDATE clientes SET nome = ?, telefone = ? WHERE id = ?"; //Setando o valor de atualização
+    await conexao.query(query, [nome, telefone, id]); //itens necessários do ? ? ?
+}
+catch (error) {
+  console.error(error)
+}
+}
+
+module.exports = { getClientes, createClient, loginUsuario, atualizarCliente}

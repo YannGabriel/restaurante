@@ -40,4 +40,20 @@ async function loginClientController(req, res){
   }
 }
 
-module.exports = { getClientsController, createClientController, loginClientController };
+
+async function atualizarUsuarioController(req, res){
+
+  try{
+    const {nome, telefone} = req.body
+    const id = req.params.id
+
+    ClientServices.atualizarCliente({nome, telefone, id})
+    res.status(200).json({
+      mensagem: "Usuario atualizado com sucesso!"
+    })
+  }
+  catch(error){
+    console.error("Usuário não foi atualizado!", error)
+  }
+}
+module.exports = { getClientsController, createClientController, loginClientController, atualizarUsuarioController };

@@ -8,7 +8,9 @@ router.get('/clientes', clientControllers.getClientsController);
 
 router.post("/clientes", clientControllers.createClientController)
 
-router.post("clientes", clientControllers.loginClientController)
+router.post("/clientes", clientControllers.loginClientController)
+
+router.put("/clientes/:id", clientControllers.atualizarUsuarioController)
 
 
 module.exports = router;

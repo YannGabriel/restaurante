@@ -22,24 +22,7 @@ app.post("/clientes", ClientControllers.createClientController);
 app.post("/login", ClientControllers.loginClientController);
 
 //Atualização de dados
-app.put("/clientes/:id", async (req, res) => {
-    const { nome, telefone } = req.body; //dados a se atualizar da requisição
-    const id = req.params.id; //Acessa o parâmetro da URL
-
-    try {
-        const query = "UPDATE clientes SET nome = ?, telefone = ? WHERE id = ?"; //Setando o valor de atualização
-        await conexao.query(query, [nome, telefone, id]); //itens necessários do ? ? ?
-        
-        res.status(200).json({
-            mensagem: "Os dados foram atualizados com sucesso!"
-        });
-    }
-    catch (error) {
-        res.status(500).json({
-            mensagem: "Os dados não foram atualizados, tente novamente!"
-        });
-    }
-});
+app.put("/clientes/:id", ClientControllers.atualizarUsuarioController);
 
 //Consulta de usuários
 app.get("/clientes/:email", async (req, res) => {
