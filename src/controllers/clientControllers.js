@@ -18,8 +18,8 @@ async function getClientsController(req, res) {
 async function createClientController(req, res) {
 
   try {
-    const {nome, telefone, email, senha} = req.body
-    await ClientServices.createClient(nome, telefone, email, senha)
+    const { nome, telefone, email, senha } = req.body;
+    await ClientServices.createClient({nome, telefone, email, senha})
     res.status(200).json({
       mensagem: "Cliente Criado com sucesso!"
     })
@@ -28,4 +28,16 @@ async function createClientController(req, res) {
   }
 }
 
-module.exports = { getClientsController, createClientController };
+async function loginClientController(req, res){
+  try {
+    const { nome, telefone, email, senha } = req.body;
+    await ClientServices.createClient({nome, telefone, email, senha})
+    res.status(200).json({
+      mensagem: "Cliente Criado com sucesso!"
+    })
+  } catch (error) {
+    console.error("O cliente não foi criado!", error)
+  }
+}
+
+module.exports = { getClientsController, createClientController, loginClientController };

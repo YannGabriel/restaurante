@@ -14,26 +14,29 @@ async function getClientes() {
 }
 
 
-async function createClient(req, res, nome, telefone, email, senha) {
+async function createClient({ nome, telefone, email, senha }) {
 
-  //O ERRO TA AQUI!
-  
-  const { nome, telefone, email, senha } = req.body; //Dados atribuidos aos nomes das variáveis (mesmo nome aqui e no formulário)
   const hashSenha = bcrypt.hashSync(senha, 10); //Criptografar a senha (10 é padrão)
 
   try {
     const query = "INSERT INTO clientes (nome, telefone, email, senha) VALUES(?, ?, ?, ?)"; //Query para inserir os dados
     await conexao.query(query, [nome, telefone, email, hashSenha]); //Conexão para enviar os itens ao DataBase
-    res.status(201).json({
-      mensagem: "Usuário cadastrado com sucesso!"
-    }); //Mensagem de resposta positiva
   }
   catch (error) {
     console.error("Erro ao cadastrar usuário: ", error);
-    res.status(500).json({
-      mensagem: "Erro interno!"
-    }); //Mensagem caso de mensagem negativa
   }
 }
 
-module.exports = { getClientes, createClient }
+async function loginUsuario({ email, senha }) {
+  const { email, senha } = req.body;
+
+  try {
+    const query = "SELECT email, senha FROM clientes WHERE email = ?"; //Só retorna se o email for o mesmo enviado na requisição
+    const [cliente] = await conexao.query(query, [email]); //Seleciona o email e senha do usuário para verificações
+    const decriptSenha = bcrypt.compareSync(cliente.senha, senha); //Comparar senha com senha
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports = { getClientes, createClient, loginUsuario }

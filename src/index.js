@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const ClientControllers = require("./controllers/clientControllers.js");
 
 const app = express(); //Cria o servidor
+app.use(express.urlencoded({ extended: true })); 
 app.use(cors()); //Aceitar de outros sem ser de nossa máquina
 app.use(bodyParser.json()); //Ler em JSON
 
@@ -18,28 +19,7 @@ app.get("/clientes", ClientControllers.getClientsController);
 app.post("/clientes", ClientControllers.createClientController);
 
 //Rota de Login
-app.post("/login", async (req, res) => {
-    const { email, senha } = req.body;
-
-    try {
-        const query = "SELECT email, senha FROM clientes WHERE email = ?"; //Só retorna se o email for o mesmo enviado na requisição
-        const [cliente] = await conexao.query(query, [email]); //Seleciona o email e senha do usuário para verificações
-        const decriptSenha = bcrypt.compareSync(cliente.senha, senha); //Comparar senha com senha
-
-        if (decriptSenha) {
-            res.status(200).json({
-                mensagem: "Login realizado com sucesso" //Caso não haja um usuário
-            });
-        } else {
-            res.status(400).json({
-                mensagem: "Usuário ou senha incorretos!"
-            });
-        }
-    }
-    catch (error) {
-        console.log("Usuário não encontrado!");
-    }
-});
+app.post("/login", ClientControllers.loginClientController);
 
 //Atualização de dados
 app.put("/clientes/:id", async (req, res) => {
